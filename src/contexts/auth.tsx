@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import React, {createContext, useCallback, useEffect, useState} from 'react';
+import React, {createContext, useCallback, useLayoutEffect, useState} from 'react';
 import { Alert } from 'react-native';
 import getData from '../services';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -52,7 +52,7 @@ export const AuthProvider: React.FC = ({children}) => {
   const [user, setUser] = useState<User | null>(null);
   const [tarefas, setTarefas] = useState<ITarefas | null>(null);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState({dia: new Date().getDate(), mes: new Date().getMonth() + 1, ano: new Date().getFullYear()});
+  const [data, setData] = useState({dia: new Date().getDate() + 1, mes: new Date().getMonth() + 1, ano: new Date().getFullYear()});
 
   const signIn = useCallback(
     async (userData: User) => {
@@ -81,7 +81,7 @@ export const AuthProvider: React.FC = ({children}) => {
   }, [data]);
 
   // Get user login
-  useEffect(() => {
+  useLayoutEffect(() => {
     async function getUserLogin() {
       const userLogin = await AsyncStorage.getItem('@fiapapp:user');
 
